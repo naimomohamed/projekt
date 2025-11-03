@@ -1,38 +1,84 @@
+import random
+import time
+
 class Karaktär:
     def __init__(self, namn, hälsa, attackkraft):
         self.namn = namn
         self.hälsa = hälsa
         self.attackkraft = attackkraft
+        self.frusen = False
 
 
-    def attack (self, annan):
-        print(f"\n{self.namn} attackerar {annan.namn}!")
-        annan.hälsa -= self.attackkraft
+    def attack (self, target):
+        print(f"\n{self.namn} attackerar {target.namn}!")
+        target.hälsa -= self.attackkraft
 
-        if annan.hälsa <= 0:
-            annan.hälsa = 0
-            print(f"{annan.namn} förlorar {self.attackkraft} hälsa")
-            print(f"{annan.namn} har 0 hälsa kvar och har besegrats.")
+        if target.hälsa <= 0:
+            target.hälsa = 0
+            print(f"{target.namn} förlorar {self.attackkraft} hälsa")
+            print(f"{target.namn} har 0 hälsa kvar och har besegrats.")
         else:
-            print(f"{annan.namn} förlorar {self.attackkraft} hälsa.")
-            print(f"{annan.namn} har nu {annan.hälsa} hälsa kvar.")
+            print(f"{target.namn} förlorar {self.attackkraft} hälsa.")
+            print(f"{target.namn} har nu {target.hälsa} hälsa kvar.")
+
+    def special_attack (self, target):
+        pass
+
+
 
 class Mage(Karaktär):
-    def attack(self, annan):
+    def attack(self, target):
         print(f"{self.namn} använder magi!")
-        super().attack(annan)   
+        super().attack(target)   
+
+    def special_attack(self, target):
+        if self.mana >= 20:
+            print(f"{self.namn} använder *eldstorm*")
+            skada = self.attackkraft * 2
+            target.hälsa -= skada
+            self.mana -= 20 
+            print(f"{target.namn} tar {skada} skada. ({self.mana} mana kvar)")
+        else:
+            print(f"{self.namn} har inte tillräckligt med mana för att använda eldstorm!")
 
 
 class Ranger(Karaktär):
-    def attack(self, annan):
+    def attack(self, target):
         print(f"{self.namn} skjuter en pil")
-        super().attack(annan)  
-
+        super().attack(target)  
+    def special_attack(self, target):
+        if self.mana >= 15:
+            print(f"{self.namn} använder *isstrom*")
+            skada = self.attackkraft + 10
+            target.hälsa -= skada
+            self.mana -= 15
+            target.frusen = True
+            print(f"{target.namn} tar {skada} skada. ({self.mana} mana kvar!)")
+        else:
+            print(f"{self.namn} är för trött för att använda isstorm!")
 
 class Warrior (Karaktär):
-    def attack(self, annan):
+    def attack(self, target):
         print(f"{self.namn} hugger med svärd!")
-        super().attack(annan) 
+        super().attack(target) 
+
+    def special_attack(self, target):
+        if self.mana >= 10:
+            print(f"{self.namn} använder *dubbelpil*.")
+            skada = int(self.attackkraft * 1.5)
+            target.hälsa -= skada
+            self.mana -= 10
+            print(f"{target.namn} tar {skada} skada. ({self.mana} fokus kvar)")
+        else:
+            print(f"{self.namn} har inte nog fokus för att använda dubbelpil!")
+
+
+
+class Arena:
+    def __init__(self, karaktärer):
+        self.karaktärer = karaktärer
+        
+    
 
 mage= Mage("Luna", 80, 15)
 warrior= Warrior("Elvara", 100, 10)
