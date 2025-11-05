@@ -2,10 +2,11 @@ import random
 import time
 
 class Karaktär:
-    def __init__(self, namn, hälsa, attackkraft):
+    def __init__(self, namn, hälsa, attackkraft, mana = 0):
         self.namn = namn
         self.hälsa = hälsa
         self.attackkraft = attackkraft
+        self.mana = mana
         self.frusen = False
 
 
@@ -21,8 +22,7 @@ class Karaktär:
             print(f"{target.namn} förlorar {self.attackkraft} hälsa.")
             print(f"{target.namn} har nu {target.hälsa} hälsa kvar.")
 
-    def special_attack (self, target):
-        pass
+
 
 
 
@@ -68,9 +68,9 @@ class Warrior (Karaktär):
             skada = int(self.attackkraft * 1.5)
             target.hälsa -= skada
             self.mana -= 10
-            print(f"{target.namn} tar {skada} skada. ({self.mana} fokus kvar)")
+            print(f"{target.namn} tar {skada} skada. ({self.mana} mana kvar)")
         else:
-            print(f"{self.namn} har inte nog fokus för att använda dubbelpil!")
+            print(f"{self.namn} har inte nog mana för att använda dubbelpil!")
 
 
 
@@ -92,18 +92,19 @@ class Arena:
                 print(f"{k1.namn} är frusen och kan inte attackera denna rundan")
                 k1.frusen = False
             else:
-                if random.random() < 0.3:
+                if random.random() < 0.5:
                     k1.special_attack(k2)
                 else:
                     k1.attack(k2)
             if k2.hälsa <= 0:
                 print(f"\n {k2.namn} är besegrad! {k1.namn} vinner!")
+                break
 
             if k2.frusen:
-                print(f"{k2.namn} är frusen och kan inte spela det här runda!")
+                print(f"{k2.namn} är frusen och kan inte attackera denna runda!")
                 k2.frusen = False
             else:
-                if random.random() <= 0.3:
+                if random.random() <= 0.5:
                     k2.special_attack(k1)
                 else:
                     k2.attack(k1)
