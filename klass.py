@@ -87,15 +87,24 @@ class Arena:
         runda = 1
         while k1.hälsa > 0 and k2.hälsa > 0:
             print(f"-----Runda{runda}-----")
-            time.sleep(0.8)    
+            time.sleep(0.8) 
+
+
             if k1.frusen:
                 print(f"{k1.namn} är frusen och kan inte attackera denna rundan")
                 k1.frusen = False
             else:
-                if random.random() < 0.5:
+                print(f"\nDitt val: 1 = attack, 2 = specialattack")
+                val = input("Välj 1 eller 2:")
+                if val == "1":
+                    k1.attack(k2)
+                elif val == "2":
                     k1.special_attack(k2)
                 else:
-                    k1.attack(k2)
+                    print("Ogiltigt val - du missar turen")
+                    break
+             
+  
             if k2.hälsa <= 0:
                 print(f"\n {k2.namn} är besegrad! {k1.namn} vinner!")
                 break
