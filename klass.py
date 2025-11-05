@@ -77,13 +77,47 @@ class Warrior (Karaktär):
 class Arena:
     def __init__(self, karaktärer):
         self.karaktärer = karaktärer
-        
-    
 
-mage= Mage("Luna", 80, 15)
-warrior= Warrior("Elvara", 100, 10)
+    def välj_kämpar(self):
+        return random.sample(self.karaktärer, 2)
 
-mage.attack(warrior)
-warrior.attack(mage)
-mage.attack(warrior)
-warrior.attack(mage)
+    def strid(self):
+        k1, k2 = self.välj_kämpar()
+        print(f"striden börjar mellan {k1.namn} och {k2.namn}!\n")
+        runda = 1
+        while k1.hälsa > 0 and k2.hälsa > 0:
+            print(f"-----Runda{runda}-----")
+            time.sleep(0.8)    
+            if k1.frusen:
+                print(f"{k1.namn} är frusen och kan inte attackera denna rundan")
+                k1.frusen = False
+            else:
+                if random.random() < 0.3:
+                    k1.special_attack(k2)
+                else:
+                    k1.attack(k2)
+            if k2.hälsa <= 0:
+                print(f"\n {k2.namn} är besegrad! {k1.namn} vinner!")
+
+            if k2.frusen:
+                print(f"{k2.namn} är frusen och kan inte spela det här runda!")
+                k2.frusen = False
+            else:
+                if random.random() <= 0.3:
+                    k2.special_attack(k1)
+                else:
+                    k2.attack(k1)
+
+            if k1.hälsa <= 0:
+                print(f"\n {k1.namn} besegrad! {k2.namn} vinner!")
+                break
+
+            runda += 1
+            time.sleep(1)
+
+mage= Mage("Luna", 80, 15, 40)
+warrior= Warrior("Elvara", 100, 10, 30)
+ranger = Ranger("Sylvia", 90, 12, 25)
+
+arena = Arena([mage, warrior, ranger])
+arena.strid()
