@@ -14,14 +14,9 @@ class Karaktär:
         print(f"\n{self.namn} attackerar {target.namn}!")
         target.hälsa -= self.attackkraft
 
-        if target.hälsa <= 0:
+        if target.hälsa < 0:
             target.hälsa = 0
-            print(f"{target.namn} förlorar {self.attackkraft} hälsa")
-            print(f"{target.namn} har 0 hälsa kvar och har besegrats.")
-        else:
-            print(f"{target.namn} förlorar {self.attackkraft} hälsa.")
-            print(f"{target.namn} har nu {target.hälsa} hälsa kvar.")
-
+            print(f"{target.namn} förlorar {self.attackkraft} hälsa och har nu {target.hälsa} kvar.")
 
 
 
@@ -83,7 +78,7 @@ class Arena:
 
     def strid(self):
         k1, k2 = self.välj_kämpar()
-        print(f"striden börjar mellan {k1.namn} och {k2.namn}!\n")
+        print(f"Striden börjar mellan {k1.namn} och {k2.namn}!\n")
         runda = 1
         while k1.hälsa > 0 and k2.hälsa > 0:
             print(f"-----Runda{runda}-----")
@@ -101,7 +96,7 @@ class Arena:
                 elif val == "2":
                     k1.special_attack(k2)
                 else:
-                    print("Ogiltigt val - du missar turen")
+                    print("Ogiltigt val - END OF GAME!")
                     break
              
   
@@ -123,11 +118,11 @@ class Arena:
                 break
 
             runda += 1
-            time.sleep(1)
+            time.sleep(2)
 
 mage= Mage("Luna", 80, 15, 40)
 warrior= Warrior("Elvara", 100, 10, 30)
-ranger = Ranger("Sylvia", 90, 12, 25)
+ranger = Ranger("Sylvia", 90, 20, 25)
 
 arena = Arena([mage, warrior, ranger])
 arena.strid()
