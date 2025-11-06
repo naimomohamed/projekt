@@ -20,7 +20,6 @@ class Karaktär:
 
 
 
-
 class Mage(Karaktär):
     def attack(self, target):
         print(f"{self.namn} använder magi!")
@@ -37,6 +36,7 @@ class Mage(Karaktär):
             print(f"{self.namn} har inte tillräckligt med mana för att använda eldstorm!")
 
 
+
 class Ranger(Karaktär):
     def attack(self, target):
         print(f"{self.namn} skjuter en pil")
@@ -51,6 +51,8 @@ class Ranger(Karaktär):
             print(f"{target.namn} tar {skada} skada. ({self.mana} mana kvar!)")
         else:
             print(f"{self.namn} är för trött för att använda isstorm!")
+
+
 
 class Warrior (Karaktär):
     def attack(self, target):
@@ -119,6 +121,7 @@ class Arena:
 
             runda += 1
             time.sleep(2)
+
 
 mage= Mage("Luna", 80, 15, 40)
 warrior= Warrior("Elvara", 100, 10, 30)
